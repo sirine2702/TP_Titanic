@@ -1,0 +1,149 @@
+---
+title: "analyse titanic"
+output: html_document
+date: "2024-11-14"
+---
+
+```{r}
+library(psych)
+library(ggstatsplot)
+library(ggplot2)
+library (carData)
+df = TitanicSurvival 
+```
+
+Présentation des données:
+```{r}
+df
+```
+
+Présentation des statistiques descriptives:
+```{r}
+summary(df)
+describe(df)
+```
+
+Complément statistique pour la variable 'survived':
+```{r}
+frequence <- table(df$survived)
+frequence_pourcentage <- prop.table(frequence) * 100
+mode <- names(sort(frequence, decreasing = TRUE))[1]
+effectif_total <- sum(!is.na(df$survived))
+
+print("La fréquence en pourcentage pour la variable 'survived' est:")
+print(frequence_pourcentage)
+print(paste("Le mode est :", mode))
+print(paste("L'effectif total des survivants est :", effectif_total))
+```
+
+Complément statistique pour la variable 'sex':
+```{r}
+frequence <- table(df$sex)
+frequence_pourcentage <- prop.table(frequence) * 100
+mode <- names(sort(frequence, decreasing = TRUE))[1]
+effectif_total <- sum(!is.na(df$sex))
+
+print("La fréquence en pourcentage pour la variable 'sex' est :")
+print(frequence_pourcentage)
+print(paste("Le mode est :", mode))
+print(paste("L'effectif total pour la variable 'sex' est :", effectif_total))
+```
+
+Complément statistique pour la variable 'passengerClass':
+```{r}
+frequence <- table(df$passengerClass)
+frequence_pourcentage <- prop.table(frequence) * 100
+mode <- names(sort(frequence, decreasing = TRUE))[1]
+effectif_total <- sum(!is.na(df$passengerClass))
+
+print("Fréquence en pourcentage pour la variable 'passengerClass' est :")
+print(frequence_pourcentage)
+print(paste("Le mode est :", mode))
+print(paste("L'effectif total pour la variable 'passengerClass' est :", effectif_total))
+```
+
+
+
+Visualisation de la répartition des survivants en fonction du sexe et la classe:
+```{r}
+ggplot (na.omit(df), aes(x = sex, fill = survived)) +
+  geom_bar (position = position_dodge(), color = NA) +
+  facet_wrap ( ~passengerClass, labeller = labeller(passengerClass = c('1st' = '1ère Classe', '2nd' = '2ème Classe', '3rd' = '3ème Classe'))) +
+  labs(
+  title = 'Répartition des survivants en fonction du sexe et la classe',
+  x = 'Sexe des passagers',
+  y = 'Nombre de passagers',
+  fill = 'Survivant'
+) +
+  scale_x_discrete(labels = c('female' = 'Femme', 'male' = 'Homme')) +
+  scale_fill_manual(values = c('yes' = '#FFB6C1', 'no' = '#AEC6CF'), labels = c('yes' = 'Survivant', 'no' = 'Non survivant')) +
+  theme_light()
+```
+Ce graphique montre la répartition des passagers du Titanic selon leur genre (Femme/Homme) et leur classe (1ère, 2ème, et 3ème classe), ainsi que leur survie ou pas.
+
+Interprétation par classe et genre: 
+
+1. La 1ère classe:
+
+ - Les femmes ont un taux de survie plus élevé.
+ - Les hommes de première classe ont plus de non survivants que de survivants, bien que la différence soit moins marquée que pour les autres classes
+ 
+2. 2ème classe:
+ 
+ - Les femmes en 2ème classe présentent un taux de survie plus élevé, bien qu'il soit moins prononcé que pour celles de la 1ère classe.
+ - Les hommes de 2ème classe ont plus de non survivants que de survivants.
+ 
+3. 3ème classe:
+
+ - Les femmes en 3ème classe ont un nombre de non survivantes légèrement plus élevé que celui des survivantes.
+ - Les hommes de la 3ème classe sont majoritairement non survivants, avec une très faible proportion de survivants.
+ 
+ 
+Conclusion:
+ 
+  Ce graphique montre une tendance générale où les femmes, surtout celles en 1ère classe, avaient un taux de survie plus élevé que les hommes. Les hommes, en particulier ceux de 3ème classe, n'ont majoritairement pas survécu.
+  
+  
+
+Représentation de l’âge en fonction de la variable 'survived':
+```{r}
+ggplot(na.omit(df), aes(x = survived, y = age, fill = survived)) +
+  geom_violin( trim = FALSE, alpha = 0.7) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9)) +
+  labs(
+  title = "Âge en fonction de la variable 'survived'",
+  x = 'Survivant',
+  y = 'Âge des passagers',
+  fill = 'Survivant'
+  ) +
+  scale_x_discrete(labels = c('yes' = 'Survivant', 'no' = 'Non Survivant')) + 
+  scale_fill_manual(values = c('yes' = '#FF69B4', 'no' = '#0073FF'), labels = c('yes' = 'Survivant', 'no' = 'Non Survivant')) +
+  theme_light()
+```
+Ce graphique représente la distribution de l'âge des passagers du Titanic en fonction de leur statut de survie (Non survivants ou survivants).
+
+Interprétation: 
+
+1. Âge des non survivants:
+
+ - La distribution est large, avec une majorité d'individus autour de 30 ans.
+ - Il y a des passagers de tout âge parmi les non survivants, mais la densité est plus élevée pout les jeunes adultes.
+ - La boxplot montre que l'âge médian des non survivants est d'environ 30 ans.
+ 
+2. Âge des survivants:
+
+ - La distribution est concentrée autour des 30 ans, mais semble plus symétrique que celle des non survivants.
+ - La boxplot montre une médiane proche de celle des non survivants, autour des 28-30 ans, bien que les survivants aient aussi un certain nombre de passagers plus jeunes et quelques survivants plus âgés.
+ 
+ 
+Conclusion :
+
+  Les passagers jeune, autour de 30 ans, sont les plus représentés parmis les survivants et les non survivants. Cependant, il y a une légère différence dans la répartition, indiquant que l'âge n'était pas un facteur déterminant de survie, bien que les enfants et certains jeunes adultes aient peut-être eu une chance un peu plus élevée de survie.
+  
+ 
+
+
+
+
+
+
