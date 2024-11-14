@@ -1,5 +1,5 @@
 ---
-title: "analyse titanic"
+title: "Analyse des données des survivants du Titanic"
 output: html_document
 date: "2024-11-14"
 ---
@@ -14,15 +14,25 @@ df = TitanicSurvival
 
 Présentation des données:
 ```{r}
-df
+head (df, n=10)
 ```
 
 Présentation des statistiques descriptives:
 ```{r}
 summary(df)
-describe(df)
 ```
 
+
+Notre étude compte :
+
+  - 500 survivants contre 809 non survivants.
+  - 843 hommes contre 466 femmes.
+  - 323 passagers en 1ère classe, 277 en 2ème classe, et 709 en 3ème classe.
+  - Les passagers ont un âge moyen de 29.8811 ans avec un âge minimal de 0.1667 ans et un âge maximal de 80 ans.
+  
+  
+  
+  
 Complément statistique pour la variable 'survived':
 ```{r}
 frequence <- table(df$survived)
@@ -79,6 +89,8 @@ ggplot (na.omit(df), aes(x = sex, fill = survived)) +
   scale_fill_manual(values = c('yes' = '#FFB6C1', 'no' = '#AEC6CF'), labels = c('yes' = 'Survivant', 'no' = 'Non survivant')) +
   theme_light()
 ```
+
+
 Ce graphique montre la répartition des passagers du Titanic selon leur genre (Femme/Homme) et leur classe (1ère, 2ème, et 3ème classe), ainsi que leur survie ou pas.
 
 Interprétation par classe et genre: 
@@ -120,6 +132,8 @@ ggplot(na.omit(df), aes(x = survived, y = age, fill = survived)) +
   scale_fill_manual(values = c('yes' = '#FF69B4', 'no' = '#0073FF'), labels = c('yes' = 'Survivant', 'no' = 'Non Survivant')) +
   theme_light()
 ```
+
+
 Ce graphique représente la distribution de l'âge des passagers du Titanic en fonction de leur statut de survie (Non survivants ou survivants).
 
 Interprétation: 
