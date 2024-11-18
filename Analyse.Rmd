@@ -154,6 +154,19 @@ Conclusion :
 
   Les passagers jeune, autour de 30 ans, sont les plus représentés parmis les survivants et les non survivants. Cependant, il y a une légère différence dans la répartition, indiquant que l'âge n'était pas un facteur déterminant de survie, bien que les enfants et certains jeunes adultes aient peut-être eu une chance un peu plus élevée de survie.
   
+
+```{r}
+library(TitanicPckg)
+```
+
+```{r}
+taux_survie_par_classe(df)
+```
+  
+```{r}
+taux_survie_par_sexe(df)
+```
+
  
 
 

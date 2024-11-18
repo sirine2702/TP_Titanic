@@ -1,0 +1,14 @@
+---
+title: "dm"
+output: html_document
+date: "2024-11-16"
+---
+
+```{r}
+urlPath <- "https://hbiostat.org/data/repo/rhc.csv"
+rawData <- read.csv(urlPath, header = TRUE)
+rawData
+```
+
+
+
