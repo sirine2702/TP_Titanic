@@ -43,3 +43,4 @@ taux_survie_par_classe <- function(data) {
 devtools::document('TitanicPckg')
 devtools::build('TitanicPckg')
 devtools::install('TitanicPckg')
+
